@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HiCAT — Hawaii Creativity & Technology Lab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;1,300;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --plum:        #3b1270;
+      --violet:      #5e2baa;
+      --lilac:       #9b72d4;
+      --lavender:    #ddd0f7;
+      --pale:        #f4f0fc;
+      --cream:       #fdfcff;
+      --text:        #1a0e30;
+      --mid:         #5c4d7a;
+      --border:      #e0d5f5;
+      --gold:        #e8a020;
+      --serif:       'Fraunces', Georgia, serif;
+      --sans:        'Instrument Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3.5rem;
+      background: rgba(253,252,255,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      text-decoration: none;
+    }
+
+    .nav-brand img {
+      height: 46px;
+      width: auto;
+      /* Keep original purple — image has transparency */
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-name {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: var(--plum);
+      letter-spacing: .01em;
+    }
+
+    .brand-sub {
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--lilac);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .82rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--mid);
+      letter-spacing: .04em;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--plum); }
+
+    .nav-pill {
+      background: var(--plum) !important;
+      color: #fff !important;
+      padding: .5rem 1.4rem;
+      border-radius: 999px;
+      transition: transform .2s, box-shadow .2s !important;
+    }
+
+    .nav-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(59,18,112,.3) !important;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      align-items: center;
+      padding: 7rem 3.5rem 4rem;
+      gap: 5rem;
+      position: relative;
+    }
+
+    /* diagonal section divider */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 80px;
+      background: var(--pale);
+      clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: up .5s .1s forwards;
+    }
+
+    .hero-eyebrow span {
+      display: inline-block;
+      width: 28px;
+      height: 1.5px;
+      background: var(--lilac);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      font-weight: 300;
+      line-height: 1.06;
+      color: var(--plum);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: up .65s .2s forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 600;
+      color: var(--violet);
+    }
+
+    .hero-body {
+      font-size: 1.05rem;
+      line-height: 1.78;
+      color: var(--mid);
+      max-width: 50ch;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: up .65s .35s forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: up .65s .5s forwards;
+    }
+
+    .btn {
+      font-family: var(--sans);
+      font-size: .85rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: .8rem 2rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: all .22s;
+      display: inline-block;
+      letter-spacing: .03em;
+    }
+
+    .btn-fill {
+      background: var(--plum);
+      color: #fff;
+    }
+
+    .btn-fill:hover {
+      background: var(--violet);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(59,18,112,.28);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--plum);
+      border: 1.5px solid var(--plum);
+    }
+
+    .btn-ghost:hover {
+      background: var(--lavender);
+      transform: translateY(-2px);
+    }
+
+    /* hero stats */
+    .stat-row {
+      display: flex;
+      gap: 3rem;
+      padding-top: 2.5rem;
+      margin-top: 2.8rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: up .65s .65s forwards;
+    }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: var(--plum);
+      line-height: 1;
+    }
+
+    .stat-lbl {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: .3rem;
+    }
+
+    /* hero visual */
+    .hero-visual {
+      opacity: 0;
+      animation: right .8s .25s forwards;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .logo-stage {
+      position: relative;
+      width: 400px;
+      height: 400px;
+    }
+
+    /* rings */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--lavender);
+    }
+
+    .ring-1 { inset: 0; animation: spin 18s linear infinite; }
+    .ring-2 { inset: 28px; border-color: var(--border); animation: spin 25s linear infinite reverse; }
+    .ring-3 { inset: 56px; animation: spin 35s linear infinite; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ring-1::before, .ring-2::before, .ring-3::before {
+      content: '';
+      position: absolute;
+      width: 8px; height: 8px;
+      background: var(--lilac);
+      border-radius: 50%;
+      top: -4px; left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-center {
+      position: absolute;
+      inset: 80px;
+      background: var(--pale);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 60px rgba(59,18,112,.12), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
+    .logo-center img {
+      width: 80%;
+      height: auto;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 6rem 3.5rem; }
+
+    #research { background: var(--pale); }
+    #publications { background: var(--pale); }
+
+    .sec-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--lilac);
+      margin-bottom: .8rem;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      color: var(--plum);
+      line-height: 1.15;
+    }
+
+    h2 em {
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .sec-intro {
+      font-size: .98rem;
+      color: var(--mid);
+      line-height: 1.72;
+      max-width: 56ch;
+      margin-top: .75rem;
+    }
+
+    .sec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    /* ─── RESEARCH CARDS ─── */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .r-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.2rem;
+      transition: transform .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .r-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--violet), var(--lilac));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .3s;
+    }
+
+    .r-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 46px rgba(59,18,112,.1);
+    }
+
+    .r-card:hover::before { transform: scaleY(1); }
+
+    .r-icon {
+      width: 48px; height: 48px;
+      background: var(--lavender);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .r-title {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--plum);
+      margin-bottom: .55rem;
+      line-height: 1.25;
+    }
+
+    .r-body {
+      font-size: .875rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    .r-tag {
+      display: inline-block;
+      margin-top: 1.3rem;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--violet);
+      background: var(--lavender);
+      padding: .28rem .75rem;
+      border-radius: 999px;
+    }
+
+    /* ─── PEOPLE ─── */
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .p-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.9rem 1.6rem;
+      background: var(--cream);
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+
+    .p-card:hover {
+      border-color: var(--lilac);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(59,18,112,.1);
+    }
+
+    .avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet) 0%, var(--lilac) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      letter-spacing: .02em;
+    }
+
+    .p-name {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--plum);
+      margin-bottom: .2rem;
+    }
+
+    .p-role {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--lilac);
+      margin-bottom: .75rem;
+    }
+
+    .p-focus {
+      font-size: .84rem;
+      color: var(--mid);
+      line-height: 1.55;
+    }
+
+    /* ─── PUBLICATIONS ─── */
+    .pub-table {
+      border-top: 1.5px solid var(--plum);
+    }
+
+    .pub-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 100px;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left .2s, background .2s;
+      border-radius: 8px;
+    }
+
+    .pub-row:hover {
+      padding-left: .65rem;
+      background: rgba(221,208,247,.2);
+    }
+
+    .pub-yr {
+      font-family: var(--serif);
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--lilac);
+      padding-top: .1rem;
+      letter-spacing: .04em;
+    }
+
+    .pub-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--plum);
+      line-height: 1.3;
+      margin-bottom: .3rem;
+    }
+
+    .pub-authors {
+      font-size: .83rem;
+      color: var(--mid);
+    }
+
+    .pub-venue {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--violet);
+      background: var(--lavender);
+      padding: .3rem .75rem;
+      border-radius: 999px;
+      text-align: center;
+      align-self: start;
+      white-space: nowrap;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info h2 { margin-bottom: 1rem; }
+
+    .contact-info > p {
+      font-size: .98rem;
+      color: var(--mid);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .c-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .c-icon {
+      width: 38px; height: 38px;
+      flex-shrink: 0;
+      background: var(--lavender);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    .c-text { font-size: .88rem; color: var(--text); line-height: 1.5; }
+    .c-text small { color: var(--mid); font-size: .77rem; display: block; }
+
+    .contact-form {
+      background: var(--pale);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 2.75rem;
+    }
+
+    .contact-form h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--plum);
+      margin-bottom: 2rem;
+    }
+
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .f-field {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--violet);
+    }
+
+    input, textarea, select {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: .88rem;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      resize: none;
+      width: 100%;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(94,43,170,.1);
+    }
+
+    textarea { height: 115px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--plum);
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-brand img {
+      height: 44px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: .9;
+    }
+
+    .footer-brand-txt strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .footer-brand-txt span {
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+
+    .footer-copy {
+      text-align: right;
+      font-size: .77rem;
+      color: rgba(255,255,255,.4);
+      line-height: 1.8;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes right {
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.5rem; }
+      #hero {
+        grid-template-columns: 1fr;
+        padding: 7.5rem 1.5rem 5rem;
+        text-align: center;
+      }
+      .hero-body { margin: 0 auto 2.5rem; }
+      .hero-btns { justify-content: center; }
+      .stat-row { justify-content: center; }
+      .hero-visual { order: -1; }
+      .logo-stage { width: 260px; height: 260px; }
+      .sec-head { flex-direction: column; align-items: flex-start; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .f-row { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr; text-align: center; }
+      .footer-brand { justify-content: center; }
+      .footer-copy { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <img src="logo.png" alt="HiCAT logo"/>
+    <div class="brand-text">
+      <span class="brand-name">HiCAT</span>
+      <span class="brand-sub">Hawaii Creativity &amp; Technology</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#people">People</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <!-- <li><a href="#contact" class="nav-pill">Join Us</a></li> -->
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow"><span></span>University of Hawaiʻi · CS Lab</div>
+    <h1>Where <em>Creativity</em><br>Meets Technology</h1>
+    <p class="hero-body">HiCAT explores the frontier of human creativity and intelligent systems — building tools, methods, and knowledge that empower people through computing.</p>
+    <div class="hero-btns">
+      <a href="#research" class="btn btn-fill">Explore Research</a>
+      <!-- <a href="#contact" class="btn btn-ghost">Join the Lab</a> -->
+    </div>
+    <div class="stat-row">
+      <div>
+        <div class="stat-num">20+</div>
+        <div class="stat-lbl">Active Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">100+</div>
+        <div class="stat-lbl">Publications</div>
+      </div>
+      <div>
+        <div class="stat-num">$8M</div>
+        <div class="stat-lbl">Grant Funding</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="logo-stage">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+      <div class="logo-center">
+        <img src="logo.png" alt="HiCAT"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">What We Do</p>
+      <h2>Research <em>Areas</em></h2>
+      <p class="sec-intro">Our work spans human-centered AI, creative systems, and the social dimensions of computing — always grounded in real-world impact.</p>
+    </div>
+    <!-- <a href="#contact" class="btn btn-ghost">Collaborate →</a> -->
+  </div>
+  <div class="research-grid">
+    <div class="r-card">
+      <div class="r-icon">🎨</div>
+      <div class="r-title">Creative AI Systems</div>
+      <p class="r-body">Building co-creative tools for art, music, writing, and design — amplifying human expression through generative and interactive AI.</p>
+      <span class="r-tag">AI + Creativity</span>
+    </div>
+    <div class="r-card">
+      <div class="r-icon">🖥️</div>
+      <div class="r-title">Human-Computer Interaction</div>
+      <p class="r-body">Designing intelligent, accessible interfaces that feel natural and empower diverse users in creative and everyday workflows.</p>
+      <span class="r-tag">HCI</span>
+    </div>
+    <div class="r-card">
+      <div class="r-icon">🧠</div>
+      <div class="r-title">Machine Learning</div>
+      <p class="r-body">Efficient training methods, model compression, and novel optimization for deploying ML in resource-constrained and edge environments.</p>
+      <span class="r-tag">ML / AI</span>
+    </div>
+    <div class="r-card">
+      <div class="r-icon">🌺</div>
+      <div class="r-title">Indigenous Tech &amp; Culture</div>
+      <p class="r-body">Centering Hawaiian values and Indigenous knowledge in technology design — sovereignty, stewardship, and place-based computing.</p>
+      <span class="r-tag">Culture + CS</span>
+    </div>
+    <div class="r-card">
+      <div class="r-icon">🔐</div>
+      <div class="r-title">Privacy &amp; Security</div>
+      <p class="r-body">Differential privacy, secure multi-party computation, and privacy-preserving ML for community and civic applications.</p>
+      <span class="r-tag">Security</span>
+    </div>
+    <div class="r-card">
+      <div class="r-icon">🌐</div>
+      <div class="r-title">Networked Systems</div>
+      <p class="r-body">Next-generation protocol design, in-network inference, and distributed architectures built for Hawaiʻi's unique connectivity landscape.</p>
+      <span class="r-tag">Systems</span>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="people">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">The Team</p>
+      <h2>Our <em>People</em></h2>
+      <p class="sec-intro">Faculty, PhD researchers, and master's students working across disciplines.</p>
+    </div>
+  </div>
+  <div class="people-grid">
+    <div class="p-card">
+      <div class="avatar">AK</div>
+      <div class="p-name">Dr. Alana Kahananui</div>
+      <div class="p-role">Principal Investigator</div>
+      <p class="p-focus">Creative AI, co-creative tools, and Indigenous data sovereignty.</p>
+    </div>
+    <div class="p-card">
+      <div class="avatar">JN</div>
+      <div class="p-name">Dr. James Nakamura</div>
+      <div class="p-role">Associate Professor</div>
+      <p class="p-focus">HCI, accessible interfaces, and augmented cognition.</p>
+    </div>
+    <div class="p-card">
+      <div class="avatar">ML</div>
+      <div class="p-name">Malia Lopes</div>
+      <div class="p-role">PhD Researcher</div>
+      <p class="p-focus">Generative models and culture-aware AI systems.</p>
+    </div>
+    <div class="p-card">
+      <div class="avatar">KT</div>
+      <div class="p-name">Keanu Taufa</div>
+      <div class="p-role">PhD Researcher</div>
+      <p class="p-focus">Privacy-preserving ML and federated learning.</p>
+    </div>
+    <div class="p-card">
+      <div class="avatar">SR</div>
+      <div class="p-name">Sasha Reyes</div>
+      <div class="p-role">MS Researcher</div>
+      <p class="p-focus">Edge systems and low-latency inference for mobile devices.</p>
+    </div>
+    <div class="p-card">
+      <div class="avatar">PN</div>
+      <div class="p-name">Pua Noa</div>
+      <div class="p-role">MS Researcher</div>
+      <p class="p-focus">Participatory design and community-centered HCI.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="sec-head">
+    <div>
+      <p class="sec-label">Scholarship</p>
+      <h2>Selected <em>Publications</em></h2>
+      <p class="sec-intro">Recent work from HiCAT members at top venues.</p>
+    </div>
+    <a href="#" class="btn btn-ghost">Full List →</a>
+  </div>
+  <div class="pub-table">
+    <div class="pub-row">
+      <div class="pub-yr">2025</div>
+      <div>
+        <div class="pub-title">Kuleana: A Framework for Indigenous Data Sovereignty in AI Systems</div>
+        <div class="pub-authors">A. Kahananui, P. Noa, K. Taufa</div>
+      </div>
+      <div class="pub-venue">FAccT '25</div>
+    </div>
+    <div class="pub-row">
+      <div class="pub-yr">2025</div>
+      <div>
+        <div class="pub-title">CoWeave: Real-Time Co-Creative Narrative with Large Language Models</div>
+        <div class="pub-authors">M. Lopes, J. Nakamura, A. Kahananui</div>
+      </div>
+      <div class="pub-venue">CHI '25</div>
+    </div>
+    <div class="pub-row">
+      <div class="pub-yr">2024</div>
+      <div>
+        <div class="pub-title">Differentially Private Federated Fine-Tuning at the Edge</div>
+        <div class="pub-authors">K. Taufa, S. Reyes</div>
+      </div>
+      <div class="pub-venue">NeurIPS '24</div>
+    </div>
+    <div class="pub-row">
+      <div class="pub-yr">2024</div>
+      <div>
+        <div class="pub-title">Beyond Tooltips: Designing AI Affordances for Non-Expert Creators</div>
+        <div class="pub-authors">J. Nakamura, P. Noa, M. Lopes</div>
+      </div>
+      <div class="pub-venue">UIST '24</div>
+    </div>
+    <div class="pub-row">
+      <div class="pub-yr">2023</div>
+      <div>
+        <div class="pub-title">SketchSound: Expressive Gesture-to-Music Generation for Live Performance</div>
+        <div class="pub-authors">A. Kahananui, M. Lopes</div>
+      </div>
+      <div class="pub-venue">NIME '23</div>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact">
+    <div class="contact-wrap">
+
+    </div>
+</section>
+<!-- CONTACT -->
+<!-- <section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p class="sec-label">Get Involved</p>
+      <h2>Work <em>With Us</em></h2>
+      <p>We welcome collaborators, prospective students, and community partners. If you're excited about creativity, technology, and Hawaiʻi, reach out.</p>
+      <div class="c-detail">
+        <div class="c-icon">📍</div>
+        <div class="c-text">POST Building, Room 309<small>University of Hawaiʻi at Mānoa · Honolulu, HI 96822</small></div>
+      </div>
+      <div class="c-detail">
+        <div class="c-icon">✉️</div>
+        <div class="c-text">hicat@hawaii.edu<small>We reply within 2–3 business days</small></div>
+      </div>
+      <div class="c-detail">
+        <div class="c-icon">🕐</div>
+        <div class="c-text">Mon – Fri, 9 AM – 5 PM HST</div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send a Message</h3>
+      <div class="f-row">
+        <div class="f-field"><label>First Name</label><input type="text" placeholder="Keanu"/></div>
+        <div class="f-field"><label>Last Name</label><input type="text" placeholder="Makoa"/></div>
+      </div>
+      <div class="f-field"><label>Email</label><input type="email" placeholder="you@hawaii.edu"/></div>
+      <div class="f-field">
+        <label>I'm interested in…</label>
+        <select>
+          <option value="">Select one</option>
+          <option>PhD Application</option>
+          <option>MS Application</option>
+          <option>Research Collaboration</option>
+          <option>Community Partnership</option>
+          <option>Media / Press</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="f-field"><label>Message</label><textarea placeholder="Tell us about your background and what you'd love to explore…"></textarea></div>
+      <button class="btn btn-fill" style="width:100%">Send Message</button>
+    </div>
+  </div>
+</section>
+-->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <img src="logo.png" alt="HiCAT"/>
+    <div class="footer-brand-txt">
+      <strong>HiCAT Lab</strong>
+      <span>Hawaii Creativity &amp; Technology</span>
+    </div>
+  </div>
+  <div class="footer-copy">
+    © 2026 HiCAT Lab<br>
+    University of Hawaiʻi at Mānoa<br>
+    Department of Information &amp; Computer Sciences
+  </div>
+</footer>
+
+</body>
+</html>
