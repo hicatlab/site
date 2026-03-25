@@ -77,12 +77,14 @@
     }
     .hero-back{
         position:absolute;
-      bottom:20%;left:50%;
+      bottom:50%;left:50%;
       transform:translateX(-50%);
-      width:800px;height:400px;
-        background-image:url('beach.jpg');opacity: 0.5;
+      width:1200px;height:400px;
+      background-size: cover;
+  background-repeat: no-repeat;
+        background-image:url('lab.jpg');;
     }
-    .hero-inner{position:relative;z-index:1;max-width:680px}
+    .hero-inner{position:relative;z-index:1;max-width:680px;background-color:rgba(255, 255, 255, 0.5);}
 
     /* floating paws */
     @keyframes drift{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(6deg)}}
@@ -112,9 +114,10 @@
     .hero-logo img{width:72%}
 
     .hero-eyebrow{
-      font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+      font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
       color:var(--gold-dk);margin-bottom:1.1rem;
       opacity:0;animation:fadeUp .5s .2s forwards;
+      text-shadow: 2px 2px 1px #000000;
     }
 
     h1{
@@ -473,7 +476,7 @@
 
     .pub-list{border-top:1px solid var(--border)}
     .pub-row{
-      display:grid;grid-template-columns:64px 1fr 120px;gap:1.5rem;align-items:start;
+      display:grid;grid-template-columns:54px 1fr 120px;gap:1.5rem;align-items:start;
       padding:1.4rem 0;border-bottom:1px solid var(--border);
       transition:padding-left .18s,background .18s;border-radius:8px;
     }
@@ -549,9 +552,11 @@
       <img src="logo.png" alt="HiCAT logo" />
     </div>
     <div class="hero-eyebrow">University of Hawaiʻi · Mānoa</div>
-    <h1>Curiosity-driven<br>research at the edge of<br><em><span class="squiggle">creativity</span></em></h1>
-    <p class="hero-desc">Feel it. See it. Make it.</p>
+    <h1>Where <em>Creativity</em><br>Meets Technology</h1>
+    <p class="hero-desc">HiCAT is a lab in the Information and Computer Science department at the University of Hawaiʻi, Mānoa. We are intersted in many HCI fields, including: Tangible User Interfaces, Visualizations, Data Physicalization, Creativity and Collaboration, Human-AI Interaction, and more.<br/>🐾<br/>Keller Hall Rm 108<br/>🐾<br/>Visit our sister lab <a href="https://www.lavaflow.info/" alt="Laboratory for Advanced Visualization and Applications">LAVA</a>.</p>
   </div>
+
+  
 </section>
 
 <!-- wave cream→pale -->
@@ -577,10 +582,11 @@
 <a href="#" class="proj-card">
     <div class="proj-card-img">
       <!-- swap this div for <img src="..." alt="..."> to add a real image -->
-      <div class="placeholder">
+      <!--<div class="placeholder">
         <span class="placeholder-icon">🎨</span>
         <span class="placeholder-label">Project Image</span>
-      </div>
+      </div> -->
+      <img src="projects/images/SageIdeator.png" alt="SageIdeator" style="opacity: 0.5;">
 
       <!-- stickmen overlay -->
       <div class="stickmen">
@@ -653,10 +659,8 @@
   <!-- ─────────────────────────────── CARD 2 ─── -->
   <a href="#" class="proj-card">
     <div class="proj-card-img">
-      <div class="placeholder">
-        <span class="placeholder-icon">🌊</span>
-        <span class="placeholder-label">Project Image</span>
-      </div>
+        <img src="projects/images/DEM.png" alt="DEM cropper" style="opacity: 0.5;">
+
       <div class="stickmen">
         <svg class="stickman-left" viewBox="0 0 52 110" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="26" cy="14" r="10" fill="white" stroke="#3b1270" stroke-width="2.2"/>
@@ -905,10 +909,8 @@
       <div class="card">
         <div class="stickman-wrap">
           <div class="face">
-            <svg class="face-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="14" r="9" fill="#3b1270"/>
-                <path d="M4 38 C4 28 36 28 36 38" fill="#3b1270"/>
-            </svg>
+            <img src="images/Marissa.jpeg" alt="Marissa Halim"   style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
           </div>
           <svg class="body-svg" viewBox="0 0 70 72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="35" y1="4" x2="35" y2="16" stroke="#3b1270" stroke-width="2.5" stroke-linecap="round"/>
@@ -922,17 +924,14 @@
         <div class="card-text">
             <div class="p-name">Marissa Halim</div>
             <div class="p-role">MS Researcher</div>
-            <div class="p-focus">Interests. Graduating XX</div>
+            <div class="p-focus">HCI, Creative technologies, UX/UI design. Graduating Spring 2026 </div>
         </div>
       </div>
 
       <div class="card">
         <div class="stickman-wrap">
           <div class="face">
-            <svg class="face-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="14" r="9" fill="#3b1270"/>
-                <path d="M4 38 C4 28 36 28 36 38" fill="#3b1270"/>
-            </svg>
+            <img src="images/Loelle.jpg" alt="Loelle Lam"   style="width: 100%; height: 100%; object-fit: cover; display: block;">
           </div>
           <svg class="body-svg" viewBox="0 0 70 72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="35" y1="4" x2="35" y2="16" stroke="#3b1270" stroke-width="2.5" stroke-linecap="round"/>
@@ -946,14 +945,14 @@
         <div class="card-text">
             <div class="p-name">Loelle Lam</div>
             <div class="p-role">MS Researcher</div>
-            <div class="p-focus">Interests. Graduating XX</div>
+            <div class="p-focus">Software Engineering, Data Visualization, and Machine Learning. Graduating May 2026</div>
         </div>
       </div>
 
       <div class="card">
         <div class="stickman-wrap">
           <div class="face">
-            <img src="images/Lee.jpeg" alt="Nurit Kirshenbaum"   style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <img src="images/Lee.jpeg" alt="Lee Friedman"   style="width: 100%; height: 100%; object-fit: cover; display: block;">
 
           </div>
           <svg class="body-svg" viewBox="0 0 70 72" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -968,17 +967,15 @@
         <div class="card-text">
             <div class="p-name">Lee Friedman</div>
             <div class="p-role">MS Researcher</div>
-            <div class="p-focus">Human-Computer Interaction, accessibility, data science. Graduating in 2027</div>
+            <div class="p-focus">Human-Computer Interaction, Accessibility, Data science. Graduating in 2027</div>
         </div>
       </div>
 
       <div class="card">
         <div class="stickman-wrap">
           <div class="face">
-            <svg class="face-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="14" r="9" fill="#3b1270"/>
-                <path d="M4 38 C4 28 36 28 36 38" fill="#3b1270"/>
-            </svg>
+            <img src="images/James.jpg" alt="James Ligeralde"   style="width: 100%; height: 100%; object-fit: cover; display: block;">
+
           </div>
           <svg class="body-svg" viewBox="0 0 70 72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="35" y1="4" x2="35" y2="16" stroke="#3b1270" stroke-width="2.5" stroke-linecap="round"/>
@@ -1079,7 +1076,7 @@
     </div>
   </div>
   <div class="f-right">
-    <span class="f-cat">🐾</span>
+    <!-- <span class="f-cat">🐾</span> -->
     <div class="f-copy">© 2026 HiCAT Lab<br>University of Hawaiʻi at Mānoa<br>Department of Information &amp; Computer Sciences</div>
   </div>
 </footer>
