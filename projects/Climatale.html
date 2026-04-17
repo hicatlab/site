@@ -1,659 +1,1595 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CoWeave — HiCAT Lab</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-    :root{
-      --plum:   #3b1270;
-      --violet: #5e2baa;
-      --lilac:  #9b72d4;
-      --lav:    #ddd0f7;
-      --pale:   #f4f0fc;
-      --cream:  #fdfcff;
-      --text:   #1a0e30;
-      --mid:    #6b5c88;
-      --border: #e2d8f5;
-      --gold:   #f5c000;
-      --gold-dk:#c49300;
-      --gold-lt:#fff8d6;
-      --serif:  'Fraunces',Georgia,serif;
-      --sans:   'DM Sans',sans-serif;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClimaTales — HiCAT Lab</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
 
-    html{scroll-behavior:smooth}
-    body{background:var(--cream);color:var(--text);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
+    :root {
+      --plum: #3b1270;
+      --violet: #5e2baa;
+      --lilac: #9b72d4;
+      --lav: #ddd0f7;
+      --pale: #f4f0fc;
+      --cream: #fdfcff;
+      --text: #1a0e30;
+      --mid: #6b5c88;
+      --border: #e2d8f5;
+      --gold: #f5c000;
+      --gold-dk: #c49300;
+      --gold-lt: #fff8d6;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+      line-height: 1.6
+    }
 
     /* dot grid */
-    body::before{
-      content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-      background-image:radial-gradient(circle,rgba(221,208,247,.5) 2px,transparent 2px);
-      background-size:44px 44px;opacity:.5;
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, rgba(221, 208, 247, .5) 2px, transparent 2px);
+      background-size: 44px 44px;
+      opacity: .5;
     }
 
     /* ── NAV ── */
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      height:66px;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 3rem;
-      background:rgba(253,252,255,.95);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border);
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      background: rgba(253, 252, 255, .95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav-brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
-    .nav-brand img{height:40px}
-    .brand-name{font-family:var(--serif);font-weight:700;font-size:1.25rem;color:var(--plum)}
-    .brand-sub{font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dk)}
-    .nav-links{list-style:none;display:flex;align-items:center;gap:2rem}
-    .nav-links a{font-size:.85rem;font-weight:500;text-decoration:none;color:var(--mid);transition:color .2s}
-    .nav-links a:hover{color:var(--plum)}
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      text-decoration: none
+    }
+
+    .nav-brand img {
+      height: 40px
+    }
+
+    .brand-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--plum)
+    }
+
+    .brand-sub {
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--gold-dk)
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2rem
+    }
+
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--mid);
+      transition: color .2s
+    }
+
+    .nav-links a:hover {
+      color: var(--plum)
+    }
 
     /* ── PAGE HEADER ── */
-    .proj-header{
-      position:relative;z-index:1;
-      padding:9rem 3rem 5rem;
-      display:grid;
-      grid-template-columns:1fr 340px;
-      gap:4rem;
-      align-items:start;
+    .proj-header {
+      position: relative;
+      z-index: 1;
+      padding: 9rem 3rem 5rem;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 4rem;
+      align-items: start;
     }
 
     /* floating paws */
-    @keyframes drift{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(5deg)}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+    @keyframes drift {
 
-    .paw{position:absolute;font-size:1.4rem;opacity:.18;pointer-events:none}
-    .paw-a{top:22%;left:3%;animation:drift 6s ease-in-out infinite}
-    .paw-b{top:60%;right:2%;font-size:1rem;animation:drift 8s ease-in-out infinite;animation-delay:-3s}
-    .paw-c{bottom:10%;left:48%;font-size:.9rem;animation:drift 7s ease-in-out infinite;animation-delay:-1.5s}
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg)
+      }
 
-  
+      50% {
+        transform: translateY(-10px) rotate(5deg)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(.9)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+    .paw {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: .18;
+      pointer-events: none
+    }
+
+    .paw-a {
+      top: 22%;
+      left: 3%;
+      animation: drift 6s ease-in-out infinite
+    }
+
+    .paw-b {
+      top: 60%;
+      right: 2%;
+      font-size: 1rem;
+      animation: drift 8s ease-in-out infinite;
+      animation-delay: -3s
+    }
+
+    .paw-c {
+      bottom: 10%;
+      left: 48%;
+      font-size: .9rem;
+      animation: drift 7s ease-in-out infinite;
+      animation-delay: -1.5s
+    }
+
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+    }
 
     /* breadcrumb */
-    .crumb{
-      display:flex;align-items:center;gap:.45rem;
-      font-size:.75rem;font-weight:500;color:var(--lilac);
-      margin-bottom:2rem;
-      opacity:0;animation:fadeUp .4s .05s forwards;
+    .crumb {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--lilac);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp .4s .05s forwards;
     }
-    .crumb a{color:var(--lilac);text-decoration:none;transition:color .2s}
-    .crumb a:hover{color:var(--plum)}
-    .crumb-sep{color:var(--border)}
+
+    .crumb a {
+      color: var(--lilac);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .crumb a:hover {
+      color: var(--plum)
+    }
+
+    .crumb-sep {
+      color: var(--border)
+    }
 
     /* tags */
-    .tag-row{
-      display:flex;flex-wrap:wrap;gap:.5rem;
-      margin-bottom:1.5rem;
-      opacity:0;animation:fadeUp .4s .12s forwards;
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp .4s .12s forwards;
     }
-    .tag{
-      font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-      padding:.28rem .85rem;border-radius:999px;
-    }
-    .tag-lav{background:var(--lav);color:var(--violet)}
-    .tag-gold{background:var(--gold-lt);color:var(--gold-dk);border:1px solid rgba(245,192,0,.4)}
-    .tag-green{background:#d1fae5;color:#065f46}
 
-    h1{
-      font-family:var(--serif);
-      font-size:clamp(2.4rem,4.5vw,4rem);
-      font-weight:300;line-height:1.07;
-      color:var(--plum);margin-bottom:1.3rem;
-      opacity:0;animation:fadeUp .6s .18s forwards;
+    .tag {
+      font-size: .66rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .28rem .85rem;
+      border-radius: 999px;
     }
-    h1 em{font-style:italic;font-weight:700;color:var(--violet)}
 
-    .proj-tagline{
-      font-size:1.05rem;line-height:1.8;color:var(--mid);
-      max-width:52ch;margin-bottom:2rem;
-      opacity:0;animation:fadeUp .6s .28s forwards;
+    .tag-lav {
+      background: var(--lav);
+      color: var(--violet)
+    }
+
+    .tag-gold {
+      background: var(--gold-lt);
+      color: var(--gold-dk);
+      border: 1px solid rgba(245, 192, 0, .4)
+    }
+
+    .tag-green {
+      background: #d1fae5;
+      color: #065f46
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.07;
+      color: var(--plum);
+      margin-bottom: 1.3rem;
+      opacity: 0;
+      animation: fadeUp .6s .18s forwards;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 700;
+      color: var(--violet)
+    }
+
+    .proj-tagline {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--mid);
+      max-width: 52ch;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp .6s .28s forwards;
     }
 
     /* squiggle gold underline (reused) */
-    .squiggle{display:inline-block;position:relative}
-    .squiggle::after{
-      content:'';position:absolute;bottom:-4px;left:0;right:0;height:7px;
-      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'%3E%3Cpath d='M0,4 Q12.5,0 25,4 Q37.5,8 50,4 Q62.5,0 75,4 Q87.5,8 100,4' fill='none' stroke='%23f5c000' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x;
-      background-size:80px 7px;
+    .squiggle {
+      display: inline-block;
+      position: relative
+    }
+
+    .squiggle::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 7px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'%3E%3Cpath d='M0,4 Q12.5,0 25,4 Q37.5,8 50,4 Q62.5,0 75,4 Q87.5,8 100,4' fill='none' stroke='%23f5c000' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x;
+      background-size: 80px 7px;
     }
 
     /* action links */
-    .proj-links{
-      display:flex;gap:.8rem;flex-wrap:wrap;
-      opacity:0;animation:fadeUp .5s .38s forwards;
+    .proj-links {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .5s .38s forwards;
     }
-    .proj-link{
-      font-size:.82rem;font-weight:600;
-      text-decoration:none;padding:.6rem 1.3rem;
-      border-radius:999px;border:1.5px solid var(--border);
-      color:var(--mid);transition:all .2s;
-      display:inline-flex;align-items:center;gap:.4rem;
+
+    .proj-link {
+      font-size: .82rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: .6rem 1.3rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      color: var(--mid);
+      transition: all .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
     }
-    .proj-link:hover{border-color:var(--lilac);color:var(--plum);background:var(--pale)}
-    .proj-link.primary{
-      background:var(--plum);color:#fff;border-color:var(--plum);
+
+    .proj-link:hover {
+      border-color: var(--lilac);
+      color: var(--plum);
+      background: var(--pale)
     }
-    .proj-link.primary:hover{background:var(--violet);border-color:var(--violet)}
+
+    .proj-link.primary {
+      background: var(--plum);
+      color: #fff;
+      border-color: var(--plum);
+    }
+
+    .proj-link.primary:hover {
+      background: var(--violet);
+      border-color: var(--violet)
+    }
 
     /* ── SIDEBAR META CARD ── */
-    .meta-card{
-      position:sticky;top:86px;
-      background:var(--cream);
-      border:1px solid var(--border);
-      border-radius:20px;overflow:hidden;
-      opacity:0;animation:scaleIn .6s .25s forwards;
+    .meta-card {
+      position: sticky;
+      top: 86px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      opacity: 0;
+      animation: scaleIn .6s .25s forwards;
     }
 
-    .meta-card-head{
-      background:var(--pale);
-      padding:1rem 1.4rem;
-      border-bottom:1px solid var(--border);
-    }
-    .meta-card-head-title{
-      font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--plum);
+    .meta-card-head {
+      background: var(--pale);
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .meta-body{padding:1.3rem 1.4rem}
+    .meta-card-head-title {
+      font-family: var(--serif);
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--plum);
+    }
 
-    .meta-row{
-      display:flex;flex-direction:column;gap:.22rem;
-      padding:.85rem 0;border-bottom:1px solid var(--border);
+    .meta-body {
+      padding: 1.3rem 1.4rem
     }
-    .meta-row:last-child{border-bottom:none;padding-bottom:0}
-    .meta-key{
-      font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-      color:var(--lilac);
-    }
-    .meta-val{font-size:.88rem;color:var(--text);line-height:1.55}
-    .meta-val a{color:var(--violet);text-decoration:none}
-    .meta-val a:hover{text-decoration:underline}
 
-    .chips-wrap{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.3rem}
-    .chip{
-      font-size:.71rem;font-weight:500;
-      background:var(--lav);color:var(--violet);
-      padding:.22rem .65rem;border-radius:999px;
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: .22rem;
+      padding: .85rem 0;
+      border-bottom: 1px solid var(--border);
     }
-    .chip.gold{background:var(--gold-lt);color:var(--gold-dk)}
+
+    .meta-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0
+    }
+
+    .meta-key {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--lilac);
+    }
+
+    .meta-val {
+      font-size: .88rem;
+      color: var(--text);
+      line-height: 1.55
+    }
+
+    .meta-val a {
+      color: var(--violet);
+      text-decoration: none
+    }
+
+    .meta-val a:hover {
+      text-decoration: underline
+    }
+
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin-top: .3rem
+    }
+
+    .chip {
+      font-size: .71rem;
+      font-weight: 500;
+      background: var(--lav);
+      color: var(--violet);
+      padding: .22rem .65rem;
+      border-radius: 999px;
+    }
+
+    .chip.gold {
+      background: var(--gold-lt);
+      color: var(--gold-dk)
+    }
 
     /* ── WAVE ── */
-    .wave{line-height:0;position:relative;z-index:1}
-    .wave svg{display:block;width:100%}
+    .wave {
+      line-height: 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .wave svg {
+      display: block;
+      width: 100%
+    }
 
     /* ── CONTENT BODY ── */
-    .proj-body{
-      position:relative;z-index:1;
-      padding:5rem 3rem;
-      display:grid;
-      grid-template-columns:1fr 340px;
-      gap:4rem;
-      align-items:start;
+    .proj-body {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 3rem;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 4rem;
+      align-items: start;
     }
 
     /* prose */
-    .prose h2{
-      font-family:var(--serif);font-size:1.8rem;font-weight:300;
-      color:var(--plum);line-height:1.15;margin:3rem 0 .9rem;
+    .prose {
+      min-width: 0;
     }
-    .prose h2:first-child{margin-top:0}
-    .prose h2 em{font-style:italic;font-weight:700}
-    .prose p{font-size:.97rem;line-height:1.82;color:var(--mid);margin-bottom:1.1rem}
-    .prose p strong{color:var(--text);font-weight:600}
-    .prose a{color:var(--violet);font-weight:600;text-decoration:none}
-    .prose a:hover{text-decoration:underline}
+
+    .prose h2 {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--plum);
+      line-height: 1.15;
+      margin: 3rem 0 .9rem;
+    }
+
+    .prose h2:first-child {
+      margin-top: 0
+    }
+
+    .prose h2 em {
+      font-style: italic;
+      font-weight: 700
+    }
+
+    .prose p {
+      font-size: .97rem;
+      line-height: 1.82;
+      color: var(--mid);
+      margin-bottom: 1.1rem
+    }
+
+    .prose p strong {
+      color: var(--plum);
+      font-weight: 600
+    }
+
+    .prose a {
+      color: var(--violet);
+      font-weight: 600;
+      text-decoration: none
+    }
+
+    .prose a:hover {
+      text-decoration: underline
+    }
 
     /* pull quote */
-    .pullquote{
-      margin:2.5rem 0;
-      padding:1.6rem 1.9rem;
-      background:var(--gold-lt);
-      border-left:3px solid var(--gold);
-      border-radius:0 14px 14px 0;
+    .pullquote {
+      margin: 2.5rem 0;
+      padding: 1.6rem 1.9rem;
+      background: var(--gold-lt);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 14px 14px 0;
     }
-    .pullquote p{
-      font-family:var(--serif);font-size:1.1rem;font-style:italic;
-      font-weight:300;color:var(--plum);line-height:1.6;margin:0;
+
+    .pullquote p {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--plum);
+      line-height: 1.6;
+      margin: 0;
     }
-    .pullquote-attr{font-size:.75rem;font-weight:600;color:var(--gold-dk);margin-top:.6rem;font-style:normal}
+
+    .pullquote-attr {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--gold-dk);
+      margin-top: .6rem;
+      font-style: normal
+    }
 
     /* numbered steps */
-    .steps{margin:2rem 0;display:flex;flex-direction:column;gap:.85rem}
-    .step{
-      display:flex;gap:1rem;align-items:flex-start;
-      background:var(--pale);border-radius:14px;padding:1.1rem 1.3rem;
-      border:1px solid var(--border);
-      transition:border-color .2s,transform .2s;
+    .steps {
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: .85rem
     }
-    .step:hover{border-color:var(--lilac);transform:translateX(4px)}
-    .step-num{
-      width:32px;height:32px;flex-shrink:0;border-radius:50%;
-      background:var(--plum);color:#fff;
-      font-family:var(--serif);font-size:.88rem;font-weight:700;
-      display:flex;align-items:center;justify-content:center;margin-top:.05rem;
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: var(--pale);
+      border-radius: 14px;
+      padding: 1.1rem 1.3rem;
+      border: 1px solid var(--border);
+      transition: border-color .2s, transform .2s;
     }
-    .step-text{font-size:.9rem;color:var(--mid);line-height:1.65}
-    .step-text strong{color:var(--plum);font-weight:600}
+
+    .step:hover {
+      border-color: var(--lilac);
+      transform: translateX(4px)
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--plum);
+      color: #fff;
+      font-family: var(--serif);
+      font-size: .88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: .05rem;
+    }
+
+    .step-text {
+      font-size: .9rem;
+      color: var(--mid);
+      line-height: 1.65
+    }
+
+    .step-text strong {
+      color: var(--plum);
+      font-weight: 600
+    }
+
+    /* list */
+    .list {
+      display: flex;
+      gap: 8px;
+      padding: 16px;
+
+      list-style: none;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+
+      /* Hide scrollbar in Firefox */
+      scrollbar-width: none;
+
+      /* Hide scrollbar in IE and Edge */
+      -ms-overflow-style: none;
+    }
+
+    /* Hide scrollbar in webkit */
+    .list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .item {
+      flex-shrink: 0;
+      width: 80%;
+      height: auto;
+
+      scroll-snap-align: center;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      font-family: sans-serif;
+      font-size: 64px;
+      font-weight: bold;
+    }
+
+    /* Our Approach */
+    .row {
+      display: flex;
+      gap: 28px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── CARD ── */
+    .card {
+      flex: 1;
+      background: var(--pale);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.35s cubic-bezier(.22, .68, 0, 1.2), box-shadow 0.35s ease;
+    }
+
+    /* .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(212, 162, 76, 0.18);
+    } */
+
+    /* ── CAROUSEL ── */
+    .carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(.65, 0, .35, 1);
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.88);
+      transition: filter 0.4s;
+    }
+
+    .card:hover .slide {
+      filter: brightness(1);
+    }
+
+    /* arrows */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(14, 14, 16, 0.7);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s, background 0.2s;
+      z-index: 5;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .arrow svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .arrow-prev {
+      left: 12px;
+    }
+
+    .arrow-next {
+      right: 12px;
+    }
+
+    .carousel:hover .arrow {
+      opacity: 1;
+    }
+
+    .arrow:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* dots */
+    .dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      transform: scale(1.35);
+    }
+
+    /* ── BODY ── */
+    .card-body {
+      padding: 28px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .card-body div {
+      background-color: var(--pale);
+    }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .divider {
+      width: 36px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      border-radius: 2px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: #555;
+      font-weight: 400;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      background: transparent;
+      border: 1px solid rgba(212, 162, 76, 0.4);
+      color: var(--accent);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    /* Story development */
+    .story-container {
+      display: flex;
+    }
+
+    .story-container div {
+      flex: 1;
+    }
+
+    .story-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin: 0.5rem;
+    }
+
+    /* figure out how to make everything match, rn images look squashed/stretched */
+    .story-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      border-radius: 12px 12px 0 0;
+      /* padding-bottom: 0.5rem; */
+    }
+
+    .story-card p {
+      padding: 0.65rem 0.9rem;
+      font-size: .78rem;
+      color: var(--mid);
+      line-height: 1.5;
+      margin: 0;
+    }
 
     /* right sidebar */
-    .sidebar{display:flex;flex-direction:column;gap:1.3rem;position:sticky;top:86px}
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      position: sticky;
+      top: 86px
+    }
 
-    .scard{
-      background:var(--cream);border:1px solid var(--border);
-      border-radius:18px;overflow:hidden;
+    .scard {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
     }
-    .scard-head{
-      background:var(--pale);padding:.9rem 1.35rem;
-      border-bottom:1px solid var(--border);
-      font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--plum);
-      display:flex;align-items:center;gap:.45rem;
+
+    .scard-head {
+      background: var(--pale);
+      padding: .9rem 1.35rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--serif);
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--plum);
+      display: flex;
+      align-items: center;
+      gap: .45rem;
     }
-    .scard-body{padding:1.2rem 1.35rem}
+
+    .scard-body {
+      padding: 1.2rem 1.35rem
+    }
 
     /* pub items */
-    .pub-item{padding:.85rem 0;border-bottom:1px solid var(--border)}
-    .pub-item:last-child{border-bottom:none;padding-bottom:0}
-    .pub-venue{
-      font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--gold-dk);background:var(--gold-lt);
-      padding:.18rem .6rem;border-radius:999px;
-      display:inline-block;margin-bottom:.45rem;
-      border:1px solid rgba(245,192,0,.35);
+    .pub-item {
+      padding: .85rem 0;
+      border-bottom: 1px solid var(--border)
     }
-    .pub-t{font-size:.86rem;font-weight:600;color:var(--plum);line-height:1.3;margin-bottom:.22rem}
-    .pub-a{font-size:.76rem;color:var(--mid)}
-    .pub-link{
-      display:inline-flex;align-items:center;gap:.28rem;
-      font-size:.73rem;font-weight:600;color:var(--violet);
-      text-decoration:none;margin-top:.4rem;transition:gap .18s;
+
+    .pub-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0
     }
-    .pub-link:hover{gap:.45rem}
+
+    .pub-venue {
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold-dk);
+      background: var(--gold-lt);
+      padding: .18rem .6rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: .45rem;
+      border: 1px solid rgba(245, 192, 0, .35);
+    }
+
+    .pub-t {
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--plum);
+      line-height: 1.3;
+      margin-bottom: .22rem
+    }
+
+    .pub-a {
+      font-size: .76rem;
+      color: var(--mid)
+    }
+
+    .pub-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .28rem;
+      font-size: .73rem;
+      font-weight: 600;
+      color: var(--violet);
+      text-decoration: none;
+      margin-top: .4rem;
+      transition: gap .18s;
+    }
+
+    .pub-link:hover {
+      gap: .45rem
+    }
 
     /* resource links */
-    .res-item{
-      display:flex;align-items:center;gap:.8rem;
-      padding:.8rem 0;border-bottom:1px solid var(--border);
-      text-decoration:none;color:var(--text);
-      transition:padding-left .18s;
+    .res-item {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .8rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: padding-left .18s;
     }
-    .res-item:hover{padding-left:.4rem}
-    .res-item:last-child{border-bottom:none}
-    .res-icon{
-      width:34px;height:34px;flex-shrink:0;border-radius:10px;
-      background:var(--pale);border:1px solid var(--border);
-      display:flex;align-items:center;justify-content:center;font-size:.88rem;
+
+    .res-item:hover {
+      padding-left: .4rem
     }
-    .res-t{font-size:.85rem;font-weight:600;color:var(--plum)}
-    .res-s{font-size:.72rem;color:var(--mid)}
+
+    .res-item:last-child {
+      border-bottom: none
+    }
+
+    .res-icon {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: var(--pale);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+    }
+
+    .res-t {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--plum)
+    }
+
+    .res-s {
+      font-size: .72rem;
+      color: var(--mid)
+    }
 
     /* team */
-    .team-item{display:flex;align-items:center;gap:.8rem;padding:.65rem 0;border-bottom:1px solid var(--border)}
-    .team-item:last-child{border-bottom:none}
-    .t-av{
-      width:36px;height:36px;flex-shrink:0;border-radius:50%;
-      background:var(--lav);
-      display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+    .team-item {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .65rem 0;
+      border-bottom: 1px solid var(--border)
     }
-    .t-av.gold{background:var(--gold-lt)}
-    .t-name{font-size:.86rem;font-weight:600;color:var(--plum)}
-    .t-role{font-size:.72rem;color:var(--mid)}
+
+    .team-item:last-child {
+      border-bottom: none
+    }
+
+    .t-av {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--lav);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .t-av.gold {
+      background: var(--gold-lt)
+    }
+
+    .t-name {
+      font-size: .86rem;
+      font-weight: 600;
+      color: var(--plum)
+    }
+
+    .t-role {
+      font-size: .72rem;
+      color: var(--mid)
+    }
 
     /* ── RELATED ── */
-    .related{
-      position:relative;z-index:1;
-      background:var(--pale);padding:5rem 3rem;
+    .related {
+      position: relative;
+      z-index: 1;
+      background: var(--pale);
+      padding: 5rem 3rem;
     }
-    .related-eyebrow{
-      font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
-      color:var(--gold-dk);margin-bottom:.7rem;
-      display:flex;align-items:center;gap:.5rem;
-    }
-    .related-eyebrow::before{content:'🐾';font-size:.85rem}
 
-    .related h2{
-      font-family:var(--serif);font-size:clamp(1.7rem,2.5vw,2.3rem);
-      font-weight:300;color:var(--plum);margin-bottom:2.5rem;
+    .related-eyebrow {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold-dk);
+      margin-bottom: .7rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
     }
-    .related h2 em{font-style:italic;font-weight:700}
 
-    .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-
-    .rel-card{
-      background:var(--cream);border:1px solid var(--border);
-      border-radius:18px;padding:1.7rem;
-      text-decoration:none;color:var(--text);display:block;
-      transition:transform .25s,box-shadow .25s,border-color .25s;
+    .related-eyebrow::before {
+      content: '🐾';
+      font-size: .85rem
     }
-    .rel-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(59,18,112,.09);border-color:var(--lilac)}
-    .rel-card.g{background:var(--gold-lt)}
-    .rel-card.g:hover{border-color:var(--gold);box-shadow:0 14px 36px rgba(212,154,0,.12)}
 
-    .rel-emoji{font-size:1.8rem;display:block;margin-bottom:.7rem}
-    .rel-tag{
-      font-size:.63rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--violet);background:var(--lav);
-      padding:.22rem .65rem;border-radius:999px;display:inline-block;margin-bottom:.8rem;
+    .related h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+      font-weight: 300;
+      color: var(--plum);
+      margin-bottom: 2.5rem;
     }
-    .rel-card.g .rel-tag{color:var(--gold-dk);background:rgba(245,192,0,.25)}
-    .rel-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--plum);line-height:1.3;margin-bottom:.45rem}
-    .rel-desc{font-size:.83rem;color:var(--mid);line-height:1.6}
-    .rel-arrow{display:block;margin-top:1rem;font-size:.78rem;font-weight:600;color:var(--violet)}
-    .rel-card.g .rel-arrow{color:var(--gold-dk)}
+
+    .related h2 em {
+      font-style: italic;
+      font-weight: 700
+    }
+
+    .rel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem
+    }
+
+    .rel-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.7rem;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+
+    .rel-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(59, 18, 112, .09);
+      border-color: var(--lilac)
+    }
+
+    .rel-card.g {
+      background: var(--gold-lt)
+    }
+
+    .rel-card.g:hover {
+      border-color: var(--gold);
+      box-shadow: 0 14px 36px rgba(212, 154, 0, .12)
+    }
+
+    .rel-emoji {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: .7rem
+    }
+
+    .rel-tag {
+      font-size: .63rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--violet);
+      background: var(--lav);
+      padding: .22rem .65rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: .8rem;
+    }
+
+    .rel-card.g .rel-tag {
+      color: var(--gold-dk);
+      background: rgba(245, 192, 0, .25)
+    }
+
+    .rel-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--plum);
+      line-height: 1.3;
+      margin-bottom: .45rem
+    }
+
+    .rel-desc {
+      font-size: .83rem;
+      color: var(--mid);
+      line-height: 1.6
+    }
+
+    .rel-arrow {
+      display: block;
+      margin-top: 1rem;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--violet)
+    }
+
+    .rel-card.g .rel-arrow {
+      color: var(--gold-dk)
+    }
 
     /* ── FOOTER ── */
-    footer{
-      position:relative;z-index:1;
-      background:var(--plum);padding:3rem;
-      display:flex;justify-content:space-between;align-items:center;
-      flex-wrap:wrap;gap:1.5rem;
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--plum);
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
-    .f-left{display:flex;align-items:center;gap:.9rem}
-    .f-left img{height:40px;filter:brightness(0) invert(1);opacity:.85}
-    .f-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff}
-    .f-sub{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-    .f-right{text-align:right}
-    .f-copy{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.8}
-    .f-cat{font-size:1.4rem;display:block;margin-bottom:.3rem}
 
-    @media(max-width:960px){
-      nav{padding:0 1.25rem}
-      .proj-header,.proj-body{grid-template-columns:1fr;padding-left:1.25rem;padding-right:1.25rem}
-      .meta-card{position:static}
-      .sidebar{position:static}
-      .rel-grid{grid-template-columns:1fr}
-      .related{padding-left:1.25rem;padding-right:1.25rem}
-      footer{padding:2.5rem 1.25rem;flex-direction:column;align-items:flex-start}
-      .f-right{text-align:left}
+    .f-left {
+      display: flex;
+      align-items: center;
+      gap: .9rem
+    }
+
+    .f-left img {
+      height: 40px;
+      filter: brightness(0) invert(1);
+      opacity: .85
+    }
+
+    .f-name {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .f-sub {
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .4)
+    }
+
+    .f-right {
+      text-align: right
+    }
+
+    .f-copy {
+      font-size: .75rem;
+      color: rgba(255, 255, 255, .35);
+      line-height: 1.8
+    }
+
+    .f-cat {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: .3rem
+    }
+
+    @media(max-width:960px) {
+      nav {
+        padding: 0 1.25rem
+      }
+
+      .proj-header,
+      .proj-body {
+        grid-template-columns: 1fr;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem
+      }
+
+      .meta-card {
+        position: static;
+        width: 100%;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .rel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .related {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem
+      }
+
+      footer {
+        padding: 2.5rem 1.25rem;
+        flex-direction: column;
+        align-items: flex-start
+      }
+
+      .f-right {
+        text-align: left
+      }
+
+      .row,
+      .story-container {
+        flex-direction: column
+      }
+
+      .story-card {
+        width: 100%;
+        margin: 0.5rem 0
+      }
+    }
+
+    @media(max-width:640px) {
+      .nav-toggle {
+        display: block
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: rgba(253, 252, 255, .98);
+        backdrop-filter: blur(12px);
+        padding: 1rem 1.5rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        z-index: 99;
+        gap: 1rem
+      }
+
+      .nav-links.open {
+        display: flex
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-brand" href="../index.html">
-    <img src="../logo.png" alt="HiCAT"/>
-    <div>
-      <div class="brand-name">HiCAT</div>
-      <div class="brand-sub">Hawaii Creativity &amp; Technology</div>
-    </div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="hicat-simple.html#research">Research</a></li>
-    <li><a href="hicat-simple.html#people">People</a></li>
-    <li><a href="hicat-simple.html#publications">Publications</a></li>
-  </ul>
-</nav>
-
-<!-- ── PAGE HEADER ── -->
-<div class="proj-header">
-  <!-- <div class="paw paw-a">🐾</div>
-  <div class="paw paw-b">🐾</div>
-  <div class="paw paw-c">🐾</div> -->
-
-  <div class="proj-left">
-    <div class="crumb">
-      <a href="hicat-simple.html">HiCAT</a>
-      <span class="crumb-sep">/</span>
-      <a href="hicat-simple.html#research">Research</a>
-      <span class="crumb-sep">/</span>
-      CoWeave
-    </div>
-
-    <div class="tag-row">
-      <span class="tag tag-lav">Creative AI</span>
-      <span class="tag tag-lav">HCI</span>
-      <span class="tag tag-green">● Active</span>
-      <span class="tag tag-gold">2023 – Present</span>
-    </div>
-
-    <h1>CoWeave —<br><em><span class="squiggle">co-creative</span></em><br>narrative with AI</h1>
-
-    <p class="proj-tagline">An interactive storytelling system that lets writers and AI collaboratively author branching narratives in real time — preserving your voice while opening up new creative possibilities.</p>
-
-    <div class="proj-links">
-      <a href="#" class="proj-link primary">▶ Try the Demo</a>
-      <a href="#" class="proj-link">📄 Read the Paper</a>
-      <a href="#" class="proj-link">💻 GitHub ↗</a>
-    </div>
-  </div>
-
-  <!-- meta card -->
-  <div class="meta-card">
-    <div class="meta-card-head">
-      <div class="meta-card-head-title">Project Info</div>
-    </div>
-    <div class="meta-body">
-      <div class="meta-row">
-        <span class="meta-key">Status</span>
-        <span class="meta-val" style="color:#065f46;font-weight:600">● Active Research</span>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="../index.html">
+      <img src="../logo.png" alt="HiCAT" />
+      <div>
+        <div class="brand-name">HiCAT</div>
+        <div class="brand-sub">Hawaii Creativity &amp; Technology</div>
       </div>
-      <div class="meta-row">
-        <span class="meta-key">Timeline</span>
-        <span class="meta-val">January 2023 – Present</span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-key">Funding</span>
-        <span class="meta-val">NSF IIS-2234801<br>UH Seed Grant 2023</span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-key">Team</span>
-        <div class="chips-wrap">
-          <span class="chip">M. Lopes</span>
-          <span class="chip">J. Nakamura</span>
-          <span class="chip">A. Kahananui</span>
-          <span class="chip">P. Noa</span>
-        </div>
-      </div>
-      <div class="meta-row">
-        <span class="meta-key">Collaborators</span>
-        <span class="meta-val">
-          <a href="#">MIT Media Lab</a><br>
-          <a href="#">Adobe Research</a>
-        </span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-key">Keywords</span>
-        <div class="chips-wrap">
-          <span class="chip gold">co-creation</span>
-          <span class="chip gold">LLMs</span>
-          <span class="chip gold">narrative</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- wave cream→pale -->
-<div class="wave" style="background:var(--cream)">
-  <svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:52px">
-    <path d="M0,26 C180,52 360,0 540,26 C720,52 900,0 1080,26 C1260,52 1380,13 1440,26 L1440,52 L0,52 Z" fill="#f4f0fc"/>
-  </svg>
-</div>
-
-<!-- ── BODY ── -->
-<div class="proj-body" style="background:var(--pale)">
-
-  <div class="prose">
-    <h2>The <em>Problem</em></h2>
-    <p>Generative AI writing tools often feel like autocomplete on steroids — they complete sentences, but they don't <strong>collaborate</strong>. Writers frequently report a loss of agency: the AI overtakes their narrative voice, dilutes their style, and produces text that is fluent but hollow.</p>
-    <p>Existing co-writing systems treat the human as a prompt engineer and the model as the author. CoWeave inverts this: you remain the primary author, and the AI acts as a responsive collaborator — offering branches and alternatives without overwriting your intent.</p>
-
-    <div class="pullquote">
-      <p>"The best co-author isn't one who writes for you — it's one who opens doors you didn't know existed."</p>
-      <div class="pullquote-attr">— Exit interview, Participant 12</div>
-    </div>
-
-    <h2>Our <em>Approach</em></h2>
-    <p>CoWeave introduces a <strong>branching narrative canvas</strong> where every authored segment can spawn parallel AI-generated continuations. Writers navigate this tree, cherry-picking phrases, recombining branches, or using AI text purely as scaffolding to rewrite entirely.</p>
-    <p>Under the hood, we fine-tune a compact language model on author-provided samples to capture stylistic fingerprints, conditioning generation on a learned <em>voice embedding</em> — extracted from as few as 500 words of the writer's own prose.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text"><strong>Upload a writing sample.</strong> CoWeave extracts a voice embedding from 500+ words of your prose, capturing rhythm, vocabulary, and stylistic tendencies.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text"><strong>Write freely on the canvas.</strong> Every segment you author becomes an anchor point. The system watches your prose — never interrupting.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text"><strong>Explore AI branches.</strong> At any point, request parallel continuations. They sound like you — because they were conditioned on your voice embedding.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-text"><strong>Keep, discard, or remix.</strong> Cherry-pick a phrase, recombine two branches, or use the AI text as a provocation to write something entirely your own.</div>
-      </div>
-    </div>
-
-    <h2>Key <em>Findings</em></h2>
-    <p>In a user study with 24 fiction writers — ranging from hobbyists to published authors — participants using CoWeave produced <strong>38% longer narratives</strong> in the same time window versus a baseline LLM chat interface, and rated their sense of authorial ownership significantly higher (p &lt; .01).</p>
-    <p>Qualitatively, writers described CoWeave as feeling like a "brainstorming partner" rather than a ghostwriter. Several participants reported using AI branches not as text to keep, but as <em>provocations</em> — springboards that helped them discover directions they then wrote entirely themselves.</p>
-
-    <h2>What's <em>Next</em></h2>
-    <p>We're extending CoWeave to support <strong>multi-author collaboration</strong> — where multiple human writers and multiple AI personas co-author a single narrative, each with distinct voice embeddings. We're also exploring educational creative writing tools and applications in game narrative design.</p>
-    <p>We welcome collaborators from HCI, NLP, and the digital humanities. <a href="hicat-simple.html">Reach out</a> if this work resonates.</p>
-  </div>
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-
-    <div class="scard">
-      <div class="scard-head">🐾 Publications</div>
-      <div class="scard-body">
-        <div class="pub-item">
-          <span class="pub-venue">CHI '25</span>
-          <div class="pub-t">CoWeave: Real-Time Co-Creative Narrative with Large Language Models</div>
-          <div class="pub-a">M. Lopes, J. Nakamura, A. Kahananui</div>
-          <a href="#" class="pub-link">PDF ↗</a>
-        </div>
-        <div class="pub-item">
-          <span class="pub-venue">UIST '24 Workshop</span>
-          <div class="pub-t">Voice Embeddings for Stylistically-Consistent Co-Writing</div>
-          <div class="pub-a">M. Lopes, P. Noa</div>
-          <a href="#" class="pub-link">PDF ↗</a>
-        </div>
-        <div class="pub-item">
-          <span class="pub-venue">Preprint 2024</span>
-          <div class="pub-t">Measuring Authorial Agency in Human-AI Co-Writing Systems</div>
-          <div class="pub-a">J. Nakamura, M. Lopes, A. Kahananui</div>
-          <a href="#" class="pub-link">arXiv ↗</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="scard">
-      <div class="scard-head">📦 Resources</div>
-      <div class="scard-body">
-        <a href="#" class="res-item">
-          <div class="res-icon">🖥️</div>
-          <div><div class="res-t">Live Demo</div><div class="res-s">Try CoWeave in your browser</div></div>
-        </a>
-        <a href="#" class="res-item">
-          <div class="res-icon">💻</div>
-          <div><div class="res-t">GitHub Repository</div><div class="res-s">MIT License · Python + React</div></div>
-        </a>
-        <a href="#" class="res-item">
-          <div class="res-icon">📦</div>
-          <div><div class="res-t">Study Dataset</div><div class="res-s">24 authors · CC-BY</div></div>
-        </a>
-        <a href="#" class="res-item">
-          <div class="res-icon">🎞️</div>
-          <div><div class="res-t">CHI '25 Talk</div><div class="res-s">18 min · YouTube</div></div>
-        </a>
-      </div>
-    </div>
-
-    <div class="scard">
-      <div class="scard-head">😺 Team</div>
-      <div class="scard-body">
-        <div class="team-item">
-          <div class="t-av">🐱</div>
-          <div><div class="t-name">Malia Lopes</div><div class="t-role">Lead Researcher · PhD</div></div>
-        </div>
-        <div class="team-item">
-          <div class="t-av gold">😸</div>
-          <div><div class="t-name">Dr. James Nakamura</div><div class="t-role">Co-Investigator</div></div>
-        </div>
-        <div class="team-item">
-          <div class="t-av">🐾</div>
-          <div><div class="t-name">Dr. Alana Kahananui</div><div class="t-role">Principal Investigator</div></div>
-        </div>
-        <div class="team-item">
-          <div class="t-av gold">🐈</div>
-          <div><div class="t-name">Pua Noa</div><div class="t-role">UX Research · MS</div></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- wave pale→pale for related -->
-<div class="wave" style="background:var(--pale)">
-  <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:40px">
-    <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,40 L0,40 Z" fill="#fdfcff"/>
-  </svg>
-</div>
-
-<!-- ── RELATED ── -->
-<!--
-<div class="related" style="background:var(--cream)">
-  <div class="related-eyebrow">More from HiCAT</div>
-  <h2>Related <em>Projects</em></h2>
-  <div class="rel-grid">
-    <a href="#" class="rel-card g">
-      <span class="rel-emoji">🎵</span>
-      <span class="rel-tag">AI + Creativity</span>
-      <div class="rel-title">SketchSound: Gesture-to-Music Generation</div>
-      <p class="rel-desc">A live performance tool that transforms expressive gesture into musical phrases using a learned gesture vocabulary.</p>
-      <span class="rel-arrow">Explore →</span>
     </a>
-    <a href="#" class="rel-card">
-      <span class="rel-emoji">🌺</span>
-      <span class="rel-tag">Culture + CS</span>
-      <div class="rel-title">Kuleana: Indigenous Data Sovereignty in AI</div>
-      <p class="rel-desc">Embedding Hawaiian values of consent and stewardship into the design of AI data pipelines.</p>
-      <span class="rel-arrow">Explore →</span>
-    </a>
-    <a href="#" class="rel-card">
-      <span class="rel-emoji">🌊</span>
-      <span class="rel-tag">HCI</span>
-      <div class="rel-title">FlowState: Ambient Creative Process Visualization</div>
-      <p class="rel-desc">An interface that makes your own creative process visible in real time — without ever interrupting the work itself.</p>
-      <span class="rel-arrow">Explore →</span>
-    </a>
-  </div>
-</div>
--->
+    <ul class="nav-links">
+      <li><a href="../index.html#research">Research</a></li>
+      <li><a href="../index.html#people">People</a></li>
+      <li><a href="../index.html#publications">Publications</a></li>
+    </ul>
+  </nav>
 
-<!-- wave into footer -->
-<div class="wave" style="background:var(--cream)">
-  <svg viewBox="0 0 1440 44" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:44px">
-    <path d="M0,22 C240,44 480,0 720,22 C960,44 1200,0 1440,22 L1440,44 L0,44 Z" fill="#3b1270"/>
-  </svg>
-</div>
+  <!-- ── PAGE HEADER ── -->
+  <div class="proj-header">
+    <!-- <div class="paw paw-a">🐾</div>
+    <div class="paw paw-b">🐾</div>
+    <div class="paw paw-c">🐾</div> -->
 
-<!-- FOOTER -->
-<footer>
-  <div class="f-left">
-    <img src="../logo.png" alt="HiCAT"/>
-    <div>
-      <div class="f-name">HiCAT Lab</div>
-      <div class="f-sub">Hawaii Creativity &amp; Technology</div>
+    <div class="proj-left">
+      <div class="crumb">
+        <a href="../index.html">HiCAT</a>
+        <span class="crumb-sep">/</span>
+        <a href="../index.html#research">Research</a>
+        <span class="crumb-sep">/</span>
+        ClimaTales
+      </div>
+
+      <div class="tag-row">
+        <span class="tag tag-lav">Data Physicalization</span>
+        <span class="tag tag-lav">HCI</span>
+        <span class="tag tag-green">● Active</span>
+        <span class="tag tag-gold">2024 – Present</span>
+      </div>
+      <h1>ClimaTales</h1>
+      <p class="proj-tagline"> Turning data into stories you can see, touch, and understand. </p>
+
+      <iframe src="https://www.youtube.com/embed/KkK5hCaRdJw?controls=0" frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- meta card -->
+    <div class="meta-card">
+      <div class="meta-card-head">
+        <div class="meta-card-head-title">Project Info</div>
+      </div>
+      <div class="meta-body">
+        <div class="meta-row">
+          <span class="meta-key">Status</span>
+          <span class="meta-val" style="color:#065f46;font-weight:600">● Active Research</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Timeline</span>
+          <span class="meta-val">January 2024 – Present</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Funding</span>
+          <span class="meta-val">NSF 2149133<br>UH Seed Grant 2023</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Team</span>
+          <div class="chips-wrap">
+            <span class="chip">M. Halim</span>
+            <span class="chip">N. Kirshenbaum</span>
+            <span class="chip">K. Kodama</span>
+            <span class="chip">R. Longman</span>
+            <span class="chip">T. Giambelluca</span>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Collaborators</span>
+          <span class="meta-val">
+            <a
+              href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.hawaii.edu/climate-data-portal/&ved=2ahUKEwivk8bFmpKTAxWXHkQIHRhrI1kQFnoECAwQAQ&usg=AOvVaw2QU5N3HfhHj7Yu4tr-pBR_">
+              Hawaiʻi Climate Data Portal </a><br>
+          </span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-key">Keywords</span>
+          <div class="chips-wrap">
+            <span class="chip gold">HCI</span>
+            <span class="chip gold">XR</span>
+            <span class="chip gold">Data physicalization</span>
+            <span class="chip gold">Data narratives</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="f-right">
-    <span class="f-cat">🐾</span>
-    <div class="f-copy">© 2026 HiCAT Lab<br>University of Hawaiʻi at Mānoa</div>
+
+  <!-- wave cream→pale -->
+  <div class="wave" style="background:var(--cream)">
+    <svg viewBox="0 0 1440 52" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:52px">
+      <path d="M0,26 C180,52 360,0 540,26 C720,52 900,0 1080,26 C1260,52 1380,13 1440,26 L1440,52 L0,52 Z"
+        fill="#f4f0fc" />
+    </svg>
   </div>
-</footer>
+
+  <!-- ── BODY ── -->
+  <div class="proj-body" style="background:var(--pale)">
+
+    <div class="prose">
+      <h2>Our <em>Approach</em></h2>
+      <p>
+        ClimaTales is an interactive storytelling tool that introduces an <strong>immersive experience</strong> where
+        users can explore climate data in various ways. It combines data physicalization & data narratives with the
+        intent
+        of helping teach people with various backgrounds about historical and projected climate patterns specific to the
+        Hawaiian islands.
+      </p>
+
+      <div class="row">
+        <!-- CARD 1 -->
+        <div class="card">
+          <div class="carousel" id="c1">
+            <div class="slides" id="s1">
+              <img class="slide" src="./ClimaTales_assets/interactive1.jpeg" alt="People interacting with tool" />
+            </div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Interactive mode</h2>
+            <div class="divider"></div>
+            <p class="card-desc">In Interactive mode, users can explore the historical and future prediction data at
+              their own pace, drawing conclusions through comparing and contrasting different climate variable and
+              temporal data combinations.
+            </p>
+          </div>
+        </div>
+        <!-- CARD 2 -->
+        <div class="card">
+          <div class="carousel" id="c2">
+            <div class="slides" id="s2">
+              <img class="slide" src="./ClimaTales_assets/story3.jpeg" alt="People watching a story" />
+            </div>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Storytelling mode</h2>
+            <div class="divider"></div>
+            <p class="card-desc">In Storytelling mode, users can learn about specific climate patterns that domain
+              scientists want to highlight by watching a sequence of maps and listening to the narration.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <h2><em>System</em> Components</h2>
+      <div style="display: flex; padding-top: 1rem;">
+        <img src="./ClimaTales_assets/hardware.png" alt="Hardware system of ClimaTales" style="width: 400px;
+  height: auto; border-radius: 12px;" />
+        <div>
+          <p style="padding: 1rem;">ClimaTales utilizes both data physicalization and spatial augmented reality (SAR) to
+            create
+            an immersive data viewing experience. It
+            builds off of prior research, the <a href="https://www.youtube.com/watch?v=5p3XoRPWZJ4"> ProjecTable</a> and
+            the <a href="https://github.com/kehaunoe/MakawaluPresenterDevSpace">Makawalu Dev Space</a> tool. The
+            key components of the system are a projector, a
+            touchscreen display, two 3-D printed terrain models, and a computer that drives the whole system.</p>
+          <p style="padding: 1rem;">
+            The projector projects the map visualizations, labels, color scales, and icons onto the table and two
+            terrain models.
+            Users interact with the touchscreen display to control the projections. The islands are used to encourage
+            tactile interactions and to help users draw connections between place and data.</p>
+        </div>
+      </div>
+      <div style="display: flex; padding-top: 1.5rem;">
+        <p style="padding: 1rem;">
+          To create the 3D terrain models, we first download a STL file of the island terrain from <a
+            href="https://jthatch.com/Terrain2STL/">Terrain2STL</a>. Then, we
+          bring it into Blender to clean up the mesh and add some Z-axis exaggeration. Once we export the file, we
+          generate a gcode file and print the model in a 3D printer. Since the model is printed with PETG, the material
+          sparkles under the light and distorts projection. To fix this, we spray paint the model to get a matte white
+          finish.
+        </p>
+        <img src="./ClimaTales_assets/3dmodel.jpeg" alt="3D model" style="width: 400px;
+  height: auto; border-radius: 12px;" />
+      </div>
+
+      <h2>Collecting the <em>Data</em></h2>
+      <p>
+        To gather the dataset used in ClimaTales, we downloaded .tif files directly from <a
+          href="https://www.hawaii.edu/climate-data-portal/">The Hawaii Climate Data Portal (HCDP)</a>, processed them
+        in <a href="https://qgis.org/">QGIS</a>, and import them into the <a href="https://unity.com/">Unity game
+          engine</a>. Once it is all in Unity, the state of the system is managed by scripts that programmatically
+        determine which maps, labels, and scales are projected onto the table
+      </p>
+      <p>The historical dataset consists of monthly mean rainfall and mean air temperature across Oahu and Maui from
+        1990
+        to 2025 as well as the climatological averages of rainfall and temperature across a 30 year period. The future
+        dataset consists of climate prediction data for the same variables and regions across 2 different time periods:
+        the Present (2025) and Late-Century (2070-2099). The data is further categorized by downscaling methods
+        (statistical vs dynamical) used to generate the predictions and scenarios which show different levels of
+        greenhouse gas emissions (RCP 4.5 vs RCP 8.5).</p>
+
+      <h2>Story <em>Development</em></h2>
+      <p>Taking inspiration from storyboarding, we developed a script format that enables domain scientists to write
+        their stories and easily import them into ClimaTales. The script format consists of a table where each row
+        corresponds to a "page" that specify the maps, labels, and narration for each step of the story. Once domain
+        scientists fill out the table, it is converted into a JSON file that the ClimaTales system reads and stores into
+        the Storytelling UI story list.</p>
+      <div class="story-container">
+        <div class="story-card">
+          <img src="./ClimaTales_assets//storyboard-table.png" alt="Story script format example" class="story-img" />
+          <p>Example of the story script format</p>
+        </div>
+        <div class="story-card">
+          <img src="./ClimaTales_assets//storyboard-JSON.png" alt="JSON output example" class="story-img" />
+          <p>Example of the JSON output</p>
+        </div>
+        <div class="story-card">
+          <img src="./ClimaTales_assets//storyboard-ui.png" alt="Storytelling UI story list" class="story-img" />
+          <p>Example of the Storytelling UI story list</p>
+        </div>
+      </div>
+
+
+      <div>
+
+      </div>
+
+      <h2>What's <em>Next</em></h2>
+      <p>We want to connect ClimaTales with the HCDP API to reduce processing time and project bloat. This will result
+        in a wider variety of data for users to explore as well as more narratives that domain scientists can author.
+        We'd also like to connect ElevenLabs to ClimaTales to enable dynamic narration generation so that story
+        development becomes more efficient.
+        <!-- <p>We welcome collaborators from HCI, NLP, and the digital humanities. <a href="../index.html">Reach out</a> if this work resonates.</p> -->
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="scard">
+        <div class="scard-head">🐾 Publication</div>
+        <div class="scard-body">
+          <div class="pub-item">
+            <span class="pub-venue">PerDis '26</span>
+            <div class="pub-t">A Physicalization Storytelling Tool for Historical and Projected Climate Patterns</div>
+            <div class="pub-a">M. Halim, N. Kirshenbaum, K. Kodama, R. Longman, T. Giambelluca</div>
+            <a href="./ClimaTales_assets/climatales.pdf" class="pub-link">PDF ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="scard">
+        <div class="scard-head">📦 Resources</div>
+        <div class="scard-body">
+          <a href="https://www.youtube.com/watch?v=KkK5hCaRdJw" class="res-item">
+            <div class="res-icon">🖥️</div>
+            <div>
+              <div class="res-t">Demo</div>
+              <div class="res-s">Watch ClimaTales in action</div>
+            </div>
+          </a>
+          <a href="https://github.com/marissahalim/ClimaTales" class="res-item">
+            <div class="res-icon">💻</div>
+            <div>
+              <div class="res-t">GitHub Repository</div>
+              <div class="res-s">Unity + C#</div>
+            </div>
+          </a>
+          <!-- <a href="#" class="res-item">
+            <div class="res-icon">📦</div>
+            <div>
+              <div class="res-t">Hardware Kit</div>
+              <div class="res-s">Build your own ClimaTales system</div>
+            </div>
+          </a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- wave pale→pale for related -->
+  <div class="wave" style="background:var(--pale)">
+    <svg viewBox="0 0 1440 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:40px">
+      <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,40 L0,40 Z" fill="#fdfcff" />
+    </svg>
+  </div>
+
+  <!-- wave into footer -->
+  <div class="wave" style="background:var(--cream)">
+    <svg viewBox="0 0 1440 44" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:44px">
+      <path d="M0,22 C240,44 480,0 720,22 C960,44 1200,0 1440,22 L1440,44 L0,44 Z" fill="#3b1270" />
+    </svg>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-left">
+      <img src="../logo.png" alt="HiCAT" />
+      <div>
+        <div class="f-name">HiCAT Lab</div>
+        <div class="f-sub">Hawaii Creativity &amp; Technology</div>
+      </div>
+    </div>
+    <div class="f-right">
+      <span class="f-cat">🐾</span>
+      <div class="f-copy">© 2026 HiCAT Lab<br>University of Hawaiʻi at Mānoa</div>
+    </div>
+  </footer>
 
 </body>
+
 </html>
